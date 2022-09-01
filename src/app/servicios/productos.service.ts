@@ -33,4 +33,7 @@ export class ProductosService {
 
 
   }
+  editarProducto(idProducto:string, nuevosDatos:Producto){
+   return this.coleccionProductos.doc(idProducto).update(nuevosDatos)
+  }
 }

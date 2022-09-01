@@ -1,5 +1,5 @@
 <button pButton (click)="mostrarDialogo()">Agregar Producto</button>
-<p-dialog header="Productos" [(visible)]="modalVisible">
+<p-dialog header="{{textoBoton}}" [(visible)]="modalVisible">
     <form [formGroup]="nuevoProducto">
         <span class="p-float-label">
             <input class="p-inputtext-lg" id="float-input" type="text" pInputText formControlName="nombre">
@@ -13,7 +13,7 @@
             <input class="p-inputtext-lg" id="float-input" type="text" pInputText formControlName="descripcion">
             <label for="float-input">Descripcion</label>
         </span>
-        <p-button label="Guardar" (click)="agregarProducto()"></p-button>
+        <p-button label="{{textoBoton}}" (click)="cargarProducto()"></p-button>
     </form>
 
 </p-dialog>
@@ -25,6 +25,7 @@
                     <img alt="Card" src="{{producto.imagen}}">
                 </ng-template>
                 <p>{{producto.descripcion}}</p>
+                <p-button (click)="mostrarEditar(producto)">editar</p-button>
             </p-card>
         </div>
     </div>
