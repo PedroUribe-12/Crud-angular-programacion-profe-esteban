@@ -5,14 +5,13 @@
 export const environment = {
   production: false,
   firebaseConfig : {
-    apiKey: "AIzaSyB-fD5rRfBbV8QtQX1JXR3B5w4Qp3yK2ew",
-    authDomain: "crud-angular-4e475.firebaseapp.com",
-    projectId: "crud-angular-4e475",
-    storageBucket: "crud-angular-4e475.appspot.com",
-    messagingSenderId: "480150138864",
-    appId: "1:480150138864:web:d8638bee765a48157a7735",
-    measurementId: "G-81E3GXM8QK"
-}
+    apiKey: "AIzaSyBLGjNVSG0Rz0kpfDSjIedUp59_CcgwqEw",
+    authDomain: "casino-restaurante-firebase.firebaseapp.com",
+    projectId: "casino-restaurante-firebase",
+    storageBucket: "casino-restaurante-firebase.appspot.com",
+    messagingSenderId: "43923787144",
+    appId: "1:43923787144:web:c14516d1a8e42e3a41be3d"
+  }
 
 };
 /*

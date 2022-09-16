@@ -12,10 +12,12 @@ import {DialogModule} from 'primeng/dialog';
 import {InputTextModule} from 'primeng/inputtext';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { ClienteComponent } from './components/cliente/cliente.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ClienteComponent
   ],
   imports: [
     BrowserModule,

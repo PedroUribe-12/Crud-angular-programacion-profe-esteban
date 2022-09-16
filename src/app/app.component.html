@@ -1,9 +1,10 @@
-<button pButton (click)="mostrarDialogo()">Agregar Producto</button>
+<button pButton (click)="mostrarDialogo()">Agregar platillo</button>
+
 <p-dialog header="{{textoBoton}}" [(visible)]="modalVisible">
-    <form [formGroup]="nuevoProducto">
+    <form [formGroup]="nuevoPlatillo">
         <span class="p-float-label">
             <input class="p-inputtext-lg" id="float-input" type="text" pInputText formControlName="nombre">
-            <label for="float-input">Producto</label>
+            <label for="float-input">platillo</label>
         </span>
         <span class="p-float-label">
             <input class="p-inputtext-lg" id="float-input" type="number" pInputText formControlName="precio">
@@ -13,19 +14,24 @@
             <input class="p-inputtext-lg" id="float-input" type="text" pInputText formControlName="descripcion">
             <label for="float-input">Descripcion</label>
         </span>
-        <p-button label="{{textoBoton}}" (click)="cargarProducto()"></p-button>
+        <p-button label="{{textoBoton}}" (click)="cargarPlatillo()"></p-button>
     </form>
-
 </p-dialog>
-    <div class="grid grid-nogutter">
-        <div class="col-4" *ngFor="let producto of productos">
-            <p-card class=" m-2" header="{{producto.nombre}}" subheader="$ {{producto.precio}}"
-                [style]="{width: '360px'}" styleClass="p-card-shadow">
-                <ng-template pTemplate="header">
-                    <img alt="Card" src="{{producto.imagen}}">
-                </ng-template>
-                <p>{{producto.descripcion}}</p>
-                <p-button (click)="mostrarEditar(producto)">editar</p-button>
-            </p-card>
-        </div>
+
+<div class="grid grid-nogutter">
+    <div class="col-4" *ngFor="let platillo of platillos">
+        <p-card class=" m-2" header="{{platillo.nombre}}" subheader="$ {{platillo.precio}}"
+            [style]="{width: '360px'}" styleClass="p-card-shadow">
+            <p>{{platillo.descripcion}}</p>
+            <p-button (click)="mostrarEditar(platillo)">editar</p-button>
+            <!-- <p-button (click)="eliminarPlatillo(platillo)">Eliminar</p-button> -->
+            <p-button (click)="mostrarEliminar(platillo)" label="Eliminar" styleClass="p-button-warning"></p-button>
+        </p-card>
     </div>
+</div>
+
+<p-dialog header="!!ADVERTENCIA!!" [(visible)]="eliminarVisible">
+    <p>¿Deseas eliminar el Platillo?</p>
+    <p-button label="Cancelar" icon="pi pi-times" styleClass="p-button" (click)="eliminarVisible = false"></p-button>
+    <p-button label="Eliminar" icon="pi pi-trash" styleClass="p-button" (click)="eliminarVisible = false" (click)="eliminarPlatillo()"></p-button>
+</p-dialog>

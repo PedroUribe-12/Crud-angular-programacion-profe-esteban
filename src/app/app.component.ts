@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Producto } from './models/producto';
-import { ProductosService } from './servicios/productos.service';
+import { Platillo } from './models/platillo';
+import { PlatillosService } from './servicios/platillos.service';
 
 @Component({
   selector: 'app-root',
@@ -10,33 +10,36 @@ import { ProductosService } from './servicios/productos.service';
 })
 export class AppComponent implements OnInit {
   title = 'crudAngular';
-  productos!: Producto[];
+  platillos!: Platillo[];
   modalVisible: boolean = false;
-  textoBoton!:string
-  productoSeleccionado!:Producto
-  nuevoProducto = new FormGroup({
+  textoBoton!:string;
+  platilloSeleccionado!:Platillo;
+  eliminarVisible : boolean = false;
+
+  nuevoPlatillo= new FormGroup({
     nombre: new FormControl('', Validators.required),
     precio: new FormControl(0, Validators.required),
     descripcion: new FormControl('', Validators.required)
   })
-  constructor(private servicioProductos: ProductosService) {
-
+  constructor(private servicioPlatillos: PlatillosService) {
   }
+
   ngOnInit() {
-    this.servicioProductos.getProductos().subscribe(producto => {
-      this.productos = producto;
+    this.servicioPlatillos.getPlatillos().subscribe(platillo => {
+      this.platillos = platillo;
     })
   }
-  agregarProducto() {
-    if (this.nuevoProducto.valid) {
-      let nuevoProducto: Producto = {
-        nombre: this.nuevoProducto.value.nombre!,
-        precio: this.nuevoProducto.value.precio!,
-        idProducto: '',
-        descripcion: this.nuevoProducto.value.descripcion!
+
+  agregarPlatillo() {
+    if (this.nuevoPlatillo.valid) {
+      let nuevoPlatillo: Platillo = {
+        nombre: this.nuevoPlatillo.value.nombre!,
+        precio: this.nuevoPlatillo.value.precio!,
+        idPlatillo: '',
+        descripcion: this.nuevoPlatillo.value.descripcion!
       }
-      this.servicioProductos.createProducto(nuevoProducto).then(producto => {
-        alert('producto agragado')
+      this.servicioPlatillos.createProducto(nuevoPlatillo).then(platillo => {
+        alert('platillo agregado')
       })
         .catch(error => {
           alert('Ocurrio un error\nError: ' + error)
@@ -48,38 +51,57 @@ export class AppComponent implements OnInit {
   }
   mostrarDialogo() {
     this.modalVisible = true;
-    this.textoBoton='Agregar Producto'
+    this.textoBoton='Agregar Platillo'
   }
-  mostrarEditar(productoSeleccionado:Producto){
-    this.productoSeleccionado=productoSeleccionado
-    this.nuevoProducto.setValue({
+  mostrarEditar(productoSeleccionado:Platillo){
+    this.platilloSeleccionado=productoSeleccionado;
+
+    this.nuevoPlatillo.setValue({
       nombre:productoSeleccionado.nombre,
-      precio: productoSeleccionado.precio,
-      descripcion: productoSeleccionado.descripcion
+      precio:productoSeleccionado.precio,
+      descripcion:productoSeleccionado.descripcion
     })
-    this.textoBoton= 'Actualizar Producto'
+
+    this.textoBoton= 'Actualizar Platillo'
     this.modalVisible = true;
   }
-  actualizarProducto(){
-    let nuevoProducto: Producto = {
-      nombre: this.nuevoProducto.value.nombre!,
-      precio: this.nuevoProducto.value.precio!,
-      idProducto: this.productoSeleccionado.idProducto,
-      descripcion: this.nuevoProducto.value.descripcion!
+  actualizarPlatillo(){
+    let nuevoPlatillo: Platillo = {
+
+      nombre: this.nuevoPlatillo.value.nombre!,
+      precio: this.nuevoPlatillo.value.precio!,
+      idPlatillo: this.platilloSeleccionado.idPlatillo,
+      descripcion: this.nuevoPlatillo.value.descripcion!
+
     }
-    this.servicioProductos.editarProducto(this.productoSeleccionado.idProducto, nuevoProducto).then((resp)=>{
-      alert('Producto Actualizado con exito')
+    this.servicioPlatillos.editarProducto(this.platilloSeleccionado.idPlatillo, nuevoPlatillo).then((resp)=>{
+      alert('Platillo Actualizado con exito')
     })
     .catch((error)=>{
-      alert('No se pudo actualizar el producto \n Error: '+error)
+      alert('No se pudo actualizar el platillo \n Error: '+error)
     })
   }
-  cargarProducto(){
-    if(this.textoBoton==='Agregar Producto'){
-      this.agregarProducto()
-    }else if(this.textoBoton==='Actualizar Producto'){
-      this.actualizarProducto()
+
+  cargarPlatillo(){
+    if(this.textoBoton==='Agregar Platillo'){
+      this.agregarPlatillo()
+    }else if(this.textoBoton==='Actualizar Platillo'){
+      this.actualizarPlatillo()
     }
   }
 
+  eliminarPlatillo(){
+    this.servicioPlatillos.eliminarPlatillo(this.platilloSeleccionado.idPlatillo).then((resp) =>{
+      alert('El producto fue elimando con exito');
+    })
+    .catch((err)=>{
+      alert('No se pudo eliminar el platillo\nError: '+err)
+    });
+    this.eliminarVisible = false;
+  }
+
+  mostrarEliminar(platillo:Platillo){
+    this.eliminarVisible = true;
+    this.platilloSeleccionado = platillo;
+  }
 }
