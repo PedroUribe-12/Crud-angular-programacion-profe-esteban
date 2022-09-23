@@ -14,6 +14,11 @@
             <input class="p-inputtext-lg" id="float-input" type="text" pInputText formControlName="descripcion">
             <label for="float-input">Descripcion</label>
         </span>
+        <span class="p-float-label">
+            <input class="p-inputtext-lg" id="float-input" type="text" pInputText formControlName="imagen">
+            <label for="float-input">Imagen</label>
+        </span>
+        <input class="p-float-label" id="float-input" type="file" pInputText accept=".jpg, ·.png, ·,gif" (change)="cargarImagen($event)">
         <p-button label="{{textoBoton}}" (click)="cargarPlatillo()"></p-button>
     </form>
 </p-dialog>
@@ -22,6 +27,9 @@
     <div class="col-4" *ngFor="let platillo of platillos">
         <p-card class=" m-2" header="{{platillo.nombre}}" subheader="$ {{platillo.precio}}"
             [style]="{width: '360px'}" styleClass="p-card-shadow">
+            <ng-template pTemplate="header">
+                <img alt="Card" src="{{platillo.imagen}}">
+            </ng-template>
             <p>{{platillo.descripcion}}</p>
             <p-button (click)="mostrarEditar(platillo)">editar</p-button>
             <!-- <p-button (click)="eliminarPlatillo(platillo)">Eliminar</p-button> -->

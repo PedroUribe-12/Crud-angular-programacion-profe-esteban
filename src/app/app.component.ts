@@ -15,11 +15,13 @@ export class AppComponent implements OnInit {
   textoBoton!:string;
   platilloSeleccionado!:Platillo;
   eliminarVisible : boolean = false;
+  imagen!: string;
 
   nuevoPlatillo= new FormGroup({
     nombre: new FormControl('', Validators.required),
     precio: new FormControl(0, Validators.required),
-    descripcion: new FormControl('', Validators.required)
+    descripcion: new FormControl('', Validators.required),
+    imagen: new FormControl('',Validators.required)
   })
   constructor(private servicioPlatillos: PlatillosService) {
   }
@@ -36,7 +38,8 @@ export class AppComponent implements OnInit {
         nombre: this.nuevoPlatillo.value.nombre!,
         precio: this.nuevoPlatillo.value.precio!,
         idPlatillo: '',
-        descripcion: this.nuevoPlatillo.value.descripcion!
+        descripcion: this.nuevoPlatillo.value.descripcion!,
+        imagen: this.nuevoPlatillo.value.imagen!
       }
       this.servicioPlatillos.createProducto(nuevoPlatillo).then(platillo => {
         alert('platillo agregado')
@@ -59,7 +62,8 @@ export class AppComponent implements OnInit {
     this.nuevoPlatillo.setValue({
       nombre:productoSeleccionado.nombre,
       precio:productoSeleccionado.precio,
-      descripcion:productoSeleccionado.descripcion
+      descripcion:productoSeleccionado.descripcion,
+      imagen:productoSeleccionado.imagen
     })
 
     this.textoBoton= 'Actualizar Platillo'
@@ -71,7 +75,8 @@ export class AppComponent implements OnInit {
       nombre: this.nuevoPlatillo.value.nombre!,
       precio: this.nuevoPlatillo.value.precio!,
       idPlatillo: this.platilloSeleccionado.idPlatillo,
-      descripcion: this.nuevoPlatillo.value.descripcion!
+      descripcion: this.nuevoPlatillo.value.descripcion!,
+      imagen: this.nuevoPlatillo.value.imagen!
 
     }
     this.servicioPlatillos.editarProducto(this.platilloSeleccionado.idPlatillo, nuevoPlatillo).then((resp)=>{
@@ -92,7 +97,7 @@ export class AppComponent implements OnInit {
 
   eliminarPlatillo(){
     this.servicioPlatillos.eliminarPlatillo(this.platilloSeleccionado.idPlatillo).then((resp) =>{
-      alert('El producto fue elimando con exito');
+      alert('El producto fue eliminado con exito');
     })
     .catch((err)=>{
       alert('No se pudo eliminar el platillo\nError: '+err)
@@ -103,5 +108,19 @@ export class AppComponent implements OnInit {
   mostrarEliminar(platillo:Platillo){
     this.eliminarVisible = true;
     this.platilloSeleccionado = platillo;
+  }
+
+  cargarImagen(event: any){
+    let archivo = event.target.files[0];
+    let reader = new FileReader();
+    if(archivo!=undefined){
+      reader.readAsDataURL(archivo);
+      reader.onload = () => {
+        let url = reader.result;
+        if(url!=null){
+          this.imagen = url.toString();
+        }
+      }
+    }
   }
 }
